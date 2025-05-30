@@ -11,16 +11,24 @@ import Foundation
 struct GameLogic {
     
     /// 정답 숫자 3개를 생성 (0으로 시작하지 않음, 중복 없음)
-    static func makeAnswer() -> [Int] {
-        var numbers = Array(1...9)   // 1~9 숫자 배열 생성 (0 제외)
-        numbers.shuffle()            // 무작위 섞기
+    func makeAnswer() -> [Int] {
+        var numbers = Array(0...9)
+        numbers.shuffle()
         
-        // 앞의 3개 숫자를 정답으로 사용
+        if numbers[0] == 0 {
+            for i in 1..<numbers.count {
+                if numbers[i] != 0 {
+                    numbers.swapAt(0, i)
+                    break
+                }
+            }
+        }
+        
         return Array(numbers.prefix(3))
     }
     
     /// 사용자 입력과 정답을 비교하여 스트라이크와 볼 개수 계산
-    static func compare(guess: [Int], answer: [Int]) -> (strike: Int, ball: Int) {
+    func compare(guess: [Int], answer: [Int]) -> (strike: Int, ball: Int) {
         var strike = 0
         var ball = 0
         
